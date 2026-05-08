@@ -44,7 +44,7 @@ export default function BeoVisionShowcase({ calendarUrl }: { calendarUrl?: strin
             <a href={ctaUrl} target={calendarUrl ? "_blank" : undefined} rel={calendarUrl ? "noopener noreferrer" : undefined} className="px-7 py-3.5 rounded-full bg-[#00C2E0] text-[#080808] font-bold text-[15px] hover:bg-[#00D4F5] transition-colors">
               Quiero esto en mi cadena &rarr;
             </a>
-            <span className="text-[13px] text-[#444]">Sin hardware nuevo · 48h en vivo</span>
+            <span className="text-[13px] text-[#444]">Sin hardware nuevo · Sin proyectos de IT</span>
           </div>
 
           {/* Footnote */}

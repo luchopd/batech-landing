@@ -142,7 +142,7 @@ const COUNTRIES = ["🇺🇸 USA", "🇲🇽 México", "🇦🇷 Argentina", "�
 
 const FAQ = [
   { q: "¿Qué pasa si mi POS no tiene API?", a: "BEO Link lo resuelve. Es una app que se instala en 3 minutos, detecta tu POS automáticamente y extrae datos vía CDC (Change Data Capture) — lee archivos de registro en modo solo lectura, sin consultas a la base de datos, sin impacto en el rendimiento. Funciona con Soft Restaurant, National Soft, Aloha, MICROS, NCR Silver y más." },
-  { q: "¿Cuánto tarda la implementación?", a: "48 horas. Conectamos tus cámaras IP existentes, POS y RRHH sin instalar hardware adicional. No hay proyecto de IT. El día 3 tus gerentes ya reciben alertas por WhatsApp." },
+  { q: "¿Cuánto tarda la implementación?", a: "Depende de tu setup. La mayoría de las cadenas están operando con BEO en cuestión de semanas — sin proyectos de IT, sin hardware nuevo. Conectamos tus cámaras IP existentes, POS y RRHH, y los gerentes empiezan a recibir alertas por WhatsApp tan pronto como los modelos terminan de calibrar contra tus patrones de operación." },
   { q: "¿BEO reemplaza a mi equipo?", a: "No. BEO hace que tu equipo sea mucho más efectivo. Los gerentes dejan de hacer supervisión manual y empiezan a actuar sobre alertas específicas. El mismo equipo, con visibilidad completa." },
   { q: "¿Necesito cámaras nuevas?", a: "No. BEO funciona con las cámaras IP que ya tienes. Si ya tienen stream RTSP, BEO puede conectarse. Cero hardware adicional requerido." },
   { q: "¿Qué tan precisos son los agentes?", a: "En la semana 1 ya detectan patrones básicos. En el mes 2 conocen los patrones específicos de cada sucursal. Los clientes reportan accuracy superior al 90% desde la primera semana." },
@@ -182,7 +182,7 @@ const WHY_CARDS = [
   { num: "01", title: "Vertical, no genérico", desc: "Cada agente entiende los procesos de operaciones físicas. No es un chatbot adaptado. Es una herramienta construida para cadenas que venden cara a cara." },
   { num: "02", title: "De principio a fin, no sugerencias", desc: "BEO no sugiere. Detecta el problema, lo interpreta y entrega una recomendación específica por WhatsApp. Tu equipo actúa sin abrir ningún dashboard." },
   { num: "03", title: "Aprende con cada ciclo", desc: "Los agentes se vuelven más precisos con cada semana. Aprenden patrones de cada sucursal, horarios de mayor tráfico y comportamientos del equipo." },
-  { num: "04", title: "Cualquier POS, en 48 horas", desc: "¿Tu POS tiene API? Nos conectamos directo. ¿No tiene API? BEO Link extrae datos vía CDC en 3 minutos. Sin proyectos de IT. Sin hardware nuevo." },
+  { num: "04", title: "Cualquier POS, sin migración", desc: "¿Tu POS tiene API? Nos conectamos directo. ¿No tiene API? BEO Link extrae datos vía CDC. Sin proyectos de IT. Sin hardware nuevo. Sin cambiar tu stack." },
   { num: "05", title: "Enterprise-ready", desc: "Seguridad enterprise, datos aislados por sucursal y controles de acceso por rol. Diseñado para cadenas con decenas o cientos de ubicaciones desde el día uno." },
 ];
 
@@ -472,7 +472,7 @@ export default function LandingPage({ onStartOnboarding: _onStartOnboarding }: P
             {[
               { n: "< 90s", l: "Del primer cliente en fila a la acción ejecutada por tu equipo" },
               { n: "100%", l: "Cobertura visual + transaccional, 24/7, sin supervisores en piso" },
-              { n: "+18%", l: "Conversión recuperada en horas pico cuando BEO opera en vivo" },
+              { n: "+18%", l: "Conversión recuperada en horas pico" },
             ].map((p) => (
               <Reveal key={p.n}>
                 <div className="bg-[#0E0E0E] border border-[#1A1A1A] rounded-2xl p-5">
