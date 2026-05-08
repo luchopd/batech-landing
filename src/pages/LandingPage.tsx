@@ -172,7 +172,7 @@ const CLIENTS: { name: string; logo: string; dark?: boolean }[] = [
   { name: "Burger King", logo: "/clients/burger-king.png" },
   { name: "Seguros SURA", logo: "/clients/sura.svg" },
   { name: "Pintulac", logo: "/clients/pintulac.png" },
-  { name: "Foliatti Casino", logo: "/clients/foliatti.png", dark: true },
+  { name: "Foliatti Casino", logo: "/clients/foliatti.png" },
   { name: "Doggis", logo: "/clients/doggis.png" },
   { name: "Grupo Rica", logo: "/clients/grupo-rica.png" },
   { name: "Barrio Chicken", logo: "/clients/barrio-chicken.png" },
