@@ -166,10 +166,13 @@ const CONNECTORS_TICKER = [
   "Soft Restaurant", "National Soft", "Aloha", "MICROS", "NCR Silver",
 ];
 
-const CLIENTS = [
+const CLIENTS: { name: string; logo: string; dark?: boolean }[] = [
   { name: "Coca-Cola", logo: "/clients/coca-cola.png" },
+  { name: "Arca Continental", logo: "/clients/arca-continental.png" },
   { name: "Burger King", logo: "/clients/burger-king.png" },
   { name: "Seguros SURA", logo: "/clients/sura.svg" },
+  { name: "Pintulac", logo: "/clients/pintulac.png" },
+  { name: "Foliatti Casino", logo: "/clients/foliatti.png", dark: true },
   { name: "Doggis", logo: "/clients/doggis.png" },
   { name: "Grupo Rica", logo: "/clients/grupo-rica.png" },
   { name: "Barrio Chicken", logo: "/clients/barrio-chicken.png" },
@@ -815,7 +818,11 @@ export default function LandingPage({ onStartOnboarding: _onStartOnboarding }: P
             {[...CLIENTS, ...CLIENTS, ...CLIENTS].map((c, i) => (
               <div
                 key={`${c.name}-${i}`}
-                className="flex-shrink-0 h-20 md:h-24 w-44 md:w-52 bg-white rounded-2xl flex items-center justify-center px-6 shadow-[0_2px_24px_rgba(255,255,255,0.04)] hover:shadow-[0_2px_24px_rgba(0,194,224,0.15)] transition-shadow"
+                className={`flex-shrink-0 h-20 md:h-24 w-44 md:w-52 rounded-2xl flex items-center justify-center px-6 transition-shadow border ${
+                  c.dark
+                    ? "bg-[#1A1A1A] border-[#2A2A2A] hover:shadow-[0_2px_24px_rgba(0,194,224,0.15)]"
+                    : "bg-white border-transparent shadow-[0_2px_24px_rgba(255,255,255,0.04)] hover:shadow-[0_2px_24px_rgba(0,194,224,0.15)]"
+                }`}
                 title={c.name}
               >
                 <img
