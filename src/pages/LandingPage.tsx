@@ -166,6 +166,15 @@ const CONNECTORS_TICKER = [
   "Soft Restaurant", "National Soft", "Aloha", "MICROS", "NCR Silver",
 ];
 
+const CLIENTS = [
+  { name: "Coca-Cola", logo: "/clients/coca-cola.png" },
+  { name: "Burger King", logo: "/clients/burger-king.png" },
+  { name: "Seguros SURA", logo: "/clients/sura.svg" },
+  { name: "Doggis", logo: "/clients/doggis.png" },
+  { name: "Grupo Rica", logo: "/clients/grupo-rica.png" },
+  { name: "Barrio Chicken", logo: "/clients/barrio-chicken.png" },
+];
+
 const WHY_CARDS = [
   { num: "01", title: "Vertical, no genérico", desc: "Cada agente entiende los procesos de operaciones físicas. No es un chatbot adaptado. Es una herramienta construida para cadenas que venden cara a cara." },
   { num: "02", title: "De principio a fin, no sugerencias", desc: "BEO no sugiere. Detecta el problema, lo interpreta y entrega una recomendación específica por WhatsApp. Tu equipo actúa sin abrir ningún dashboard." },
@@ -783,6 +792,40 @@ export default function LandingPage({ onStartOnboarding: _onStartOnboarding }: P
             <button onClick={openCalendar} className="px-7 py-3 rounded-full bg-[#00C2E0] text-[#080808] font-bold text-[15px] hover:bg-[#00D4F5] transition-colors">
               Agenda una demo &rarr;
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ CLIENTS — subtle marquee ══════════ */}
+      <section className="py-16 md:py-20 bg-[#0A0A0A] border-y border-[#141414]" id="clientes">
+        <div className="max-w-[1180px] mx-auto px-6 md:px-10">
+          <Reveal className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#222] text-[11px] text-[#555] font-bold tracking-[0.2em] uppercase mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00C2E0]" /> {t("clients.label")}
+            </div>
+            <p className="text-[14px] text-[#555] max-w-[560px] mx-auto">{t("clients.subtitle")}</p>
+          </Reveal>
+        </div>
+
+        {/* Marquee */}
+        <div className="relative overflow-hidden">
+          <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-[#0A0A0A] to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-[#0A0A0A] to-transparent pointer-events-none" />
+          <div className="flex animate-marquee gap-6 hover:[animation-play-state:paused]">
+            {[...CLIENTS, ...CLIENTS, ...CLIENTS].map((c, i) => (
+              <div
+                key={`${c.name}-${i}`}
+                className="flex-shrink-0 h-20 md:h-24 w-44 md:w-52 bg-white rounded-2xl flex items-center justify-center px-6 shadow-[0_2px_24px_rgba(255,255,255,0.04)] hover:shadow-[0_2px_24px_rgba(0,194,224,0.15)] transition-shadow"
+                title={c.name}
+              >
+                <img
+                  src={c.logo}
+                  alt={c.name}
+                  className="max-h-12 md:max-h-14 max-w-full object-contain"
+                  loading="lazy"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
