@@ -63,6 +63,8 @@ export default function LandingPage({ onStartOnboarding: _onStartOnboarding }: P
   const [stores, setStores] = useState(20);
   const [opHours, setOpHours] = useState(14);
   const [formSent, setFormSent] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formError, setFormError] = useState(false);
   const [lang, setLang] = useState<Lang>(() => {
     if (typeof window === "undefined") return "es";
     const saved = localStorage.getItem("batech_lang") as Lang | null;
@@ -783,55 +785,87 @@ export default function LandingPage({ onStartOnboarding: _onStartOnboarding }: P
                 <div className="bg-[#0E0E0E] border border-[#1A1A1A] rounded-2xl p-6 md:p-8">
                   <h3 className="text-lg font-extrabold mb-1">{t("contact.form.title")}</h3>
                   <p className="text-[13px] text-[#555] mb-6">{t("contact.form.subtitle")}</p>
-                  <form onSubmit={(e) => { e.preventDefault(); setFormSent(true); }} className="space-y-4">
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const form = e.currentTarget;
+                      const fd = new FormData(form);
+                      setFormSubmitting(true);
+                      setFormError(false);
+                      try {
+                        const res = await fetch("https://formsubmit.co/ajax/lp@batech.ai", {
+                          method: "POST",
+                          headers: { Accept: "application/json" },
+                          body: fd,
+                        });
+                        if (res.ok) {
+                          setFormSent(true);
+                        } else {
+                          setFormError(true);
+                        }
+                      } catch {
+                        setFormError(true);
+                      } finally {
+                        setFormSubmitting(false);
+                      }
+                    }}
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="_subject" value="Nuevo lead desde batech.ai" />
+                    <input type="hidden" name="_template" value="table" />
+                    <input type="hidden" name="_captcha" value="false" />
+                    <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.name")}</label>
-                        <input required type="text" placeholder={t("contact.form.name.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
+                        <input required name="name" type="text" placeholder={t("contact.form.name.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
                       </div>
                       <div>
                         <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.company")}</label>
-                        <input required type="text" placeholder={t("contact.form.company.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
+                        <input required name="company" type="text" placeholder={t("contact.form.company.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.email")}</label>
-                        <input required type="email" placeholder={t("contact.form.email.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
+                        <input required name="email" type="email" placeholder={t("contact.form.email.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
                       </div>
                       <div>
                         <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.whatsapp")}</label>
-                        <input required type="tel" placeholder={t("contact.form.whatsapp.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
+                        <input required name="whatsapp" type="tel" placeholder={t("contact.form.whatsapp.ph")} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors" />
                       </div>
                     </div>
                     <div>
                       <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.industry")}</label>
-                      <select required defaultValue="" className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#00C2E0] transition-colors">
+                      <select required name="industry" defaultValue="" className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#00C2E0] transition-colors">
                         <option value="" disabled>{t("contact.form.industry.ph")}</option>
                         {INDUSTRY_OPTIONS.map((o) => <option key={o}>{o}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.branches")}</label>
-                      <select required defaultValue="" className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#00C2E0] transition-colors">
+                      <select required name="branches" defaultValue="" className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#00C2E0] transition-colors">
                         <option value="" disabled>{t("contact.form.branches.ph")}</option>
                         {BRANCH_RANGES.map((o) => <option key={o.label} value={o.value}>{o.label}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.country")}</label>
-                      <select required defaultValue="" className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#00C2E0] transition-colors">
+                      <select required name="country" defaultValue="" className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white outline-none focus:border-[#00C2E0] transition-colors">
                         <option value="" disabled>{t("contact.form.country.ph")}</option>
                         {COUNTRY_OPTIONS.map((o) => <option key={o}>{o}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="text-[12px] text-[#555] font-semibold mb-1.5 block">{t("contact.form.challenge")}</label>
-                      <textarea placeholder={t("contact.form.challenge.ph")} rows={3} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors resize-none" />
+                      <textarea name="challenge" placeholder={t("contact.form.challenge.ph")} rows={3} className="w-full bg-[#141414] border border-[#1E1E1E] rounded-lg px-3 py-2.5 text-[14px] text-white placeholder-[#333] outline-none focus:border-[#00C2E0] transition-colors resize-none" />
                     </div>
-                    <button type="submit" className="w-full py-3 rounded-full bg-[#00C2E0] text-[#080808] font-bold text-[15px] hover:bg-[#00D4F5] transition-colors">
-                      {t("contact.form.submit")}
+                    <button type="submit" disabled={formSubmitting} className="w-full py-3 rounded-full bg-[#00C2E0] text-[#080808] font-bold text-[15px] hover:bg-[#00D4F5] transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+                      {formSubmitting ? t("contact.form.submitting") : t("contact.form.submit")}
                     </button>
+                    {formError && (
+                      <p className="text-[12px] text-[#F87171] text-center">{t("contact.form.error")}</p>
+                    )}
                     <p className="text-[11px] text-[#333] text-center">{t("contact.form.disclaimer")}</p>
                   </form>
                 </div>
