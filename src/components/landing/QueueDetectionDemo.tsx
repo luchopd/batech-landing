@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { getTranslator, type Lang } from "../../i18n/landingTranslations";
 
 /**
  * Cinematic SVG animation: top-down store view where computer vision
@@ -7,7 +8,8 @@ import { useEffect, useRef } from "react";
  *
  * No external libraries — pure SVG + CSS keyframes for buttery 60fps.
  */
-export default function QueueDetectionDemo() {
+export default function QueueDetectionDemo({ lang = "es" }: { lang?: Lang }) {
+  const t = getTranslator(lang);
   return (
     <div className="relative rounded-3xl overflow-hidden border border-[#1A1A1A] bg-[#0A0A0A] shadow-[0_30px_80px_-20px_rgba(0,194,224,0.15)]">
       {/* Glow */}
@@ -21,10 +23,10 @@ export default function QueueDetectionDemo() {
         <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
         <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
         <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-        <span className="ml-3 text-[12px] font-semibold text-[#888]">BEO · Computer Vision + POS Sync</span>
+        <span className="ml-3 text-[12px] font-semibold text-[#888]">{t("qd.title")}</span>
         <span className="ml-auto flex items-center gap-1.5 text-[11px] font-bold text-[#00C2E0] tracking-wider">
           <span className="w-1.5 h-1.5 rounded-full bg-[#00C2E0]" style={{ animation: "qd-blink 1.2s ease-in-out infinite" }} />
-          EN VIVO
+          {t("qd.live")}
         </span>
       </div>
 
@@ -43,7 +45,7 @@ export default function QueueDetectionDemo() {
             }}
           />
           {/* Frame label */}
-          <div className="absolute top-3 left-4 z-10 text-[10px] font-bold tracking-[0.15em] text-[#00C2E0]/70 uppercase">CAM-04 · Sucursal Centro</div>
+          <div className="absolute top-3 left-4 z-10 text-[10px] font-bold tracking-[0.15em] text-[#00C2E0]/70 uppercase">{t("qd.cam")}</div>
           <div className="absolute top-3 right-4 z-10 flex items-center gap-1.5 text-[10px] font-mono text-[#444]">
             <span className="w-1 h-1 rounded-full bg-[#FF5F57]" style={{ animation: "qd-blink 0.9s ease-in-out infinite" }} />
             REC · 12:14:07
@@ -74,7 +76,7 @@ export default function QueueDetectionDemo() {
             {/* Counter (bottom area) */}
             <rect x="60" y="260" width="360" height="44" rx="6" fill="url(#qd-counter)" stroke="#243038" strokeWidth="1" />
             <text x="240" y="288" textAnchor="middle" fill="#3A5560" fontSize="9" fontFamily="Inter" fontWeight="600" letterSpacing="2">
-              CAJA · POS-04
+              {t("qd.counter")}
             </text>
 
             {/* POS terminal icon at counter */}
@@ -134,17 +136,17 @@ export default function QueueDetectionDemo() {
             {/* HUD: queue count counter */}
             <g transform="translate(36,42)">
               <rect width="86" height="44" rx="6" fill="#000A0C" stroke="#00C2E0" strokeOpacity="0.25" />
-              <text x="8" y="14" fill="#00C2E0" opacity="0.6" fontSize="7" fontFamily="Inter" fontWeight="600" letterSpacing="1.5">PERSONAS EN FILA</text>
+              <text x="8" y="14" fill="#00C2E0" opacity="0.6" fontSize="7" fontFamily="Inter" fontWeight="600" letterSpacing="1.5">{t("qd.hud.queue")}</text>
               <text id="qd-queue-num" x="8" y="36" fill="#00C2E0" fontSize="22" fontFamily="Inter" fontWeight="800" letterSpacing="-0.5">
                 <tspan style={{ animation: "qd-num1 14s steps(1) infinite" }}>0</tspan>
               </text>
-              <text x="34" y="36" fill="#3A5560" fontSize="10" fontFamily="Inter" fontWeight="600">/ 5 lim.</text>
+              <text x="34" y="36" fill="#3A5560" fontSize="10" fontFamily="Inter" fontWeight="600">{t("qd.hud.queue.limit")}</text>
             </g>
 
             {/* HUD: wait time */}
             <g transform="translate(358,42)">
               <rect width="86" height="44" rx="6" fill="#000A0C" stroke="#00C2E0" strokeOpacity="0.25" />
-              <text x="8" y="14" fill="#00C2E0" opacity="0.6" fontSize="7" fontFamily="Inter" fontWeight="600" letterSpacing="1.5">ESPERA PROM.</text>
+              <text x="8" y="14" fill="#00C2E0" opacity="0.6" fontSize="7" fontFamily="Inter" fontWeight="600" letterSpacing="1.5">{t("qd.hud.wait")}</text>
               <text x="8" y="36" fill="#FB923C" fontSize="22" fontFamily="Inter" fontWeight="800" letterSpacing="-0.5">
                 <tspan style={{ animation: "qd-wait 14s steps(1) infinite" }}>0:00</tspan>
               </text>
@@ -160,7 +162,7 @@ export default function QueueDetectionDemo() {
             <g style={{ animation: "qd-alert 14s ease-in-out infinite", opacity: 0 }} transform="translate(180,160)">
               <rect width="120" height="34" rx="6" fill="#1A0A0A" stroke="#F87171" strokeOpacity="0.5" />
               <text x="60" y="22" textAnchor="middle" fill="#F87171" fontSize="11" fontFamily="Inter" fontWeight="800" letterSpacing="0.5">
-                ⚠ FILA CRÍTICA
+                {t("qd.alert")}
               </text>
             </g>
           </svg>
@@ -171,14 +173,14 @@ export default function QueueDetectionDemo() {
           {/* Section label */}
           <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.15em] text-[#444] uppercase">
             <span className="w-1 h-1 rounded-full bg-[#00C2E0]" />
-            POS sync · Edge agent
+            {t("qd.pos.title")}
           </div>
 
           {/* POS transaction stream */}
           <div className="bg-[#0E0E0E] border border-[#1A1A1A] rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[12px] font-bold text-[#CCC]">Transacciones POS-04</span>
-              <span className="text-[10px] text-[#444] font-mono">cdc · realtime</span>
+              <span className="text-[12px] font-bold text-[#CCC]">{t("qd.pos.tx")}</span>
+              <span className="text-[10px] text-[#444] font-mono">{t("qd.pos.cdc")}</span>
             </div>
             <div className="font-mono text-[11px] space-y-1.5 h-24 overflow-hidden relative">
               <div className="absolute inset-0 flex flex-col gap-1.5" style={{ animation: "qd-stream 14s linear infinite" }}>
@@ -194,7 +196,7 @@ export default function QueueDetectionDemo() {
                   <div key={i} className="flex items-center gap-3">
                     <span className="text-[#00C2E0]/40">{tx.t}</span>
                     <span className="text-[#34D399]">▸</span>
-                    <span className="text-[#CCC]">VENTA {tx.a}</span>
+                    <span className="text-[#CCC]">{t("qd.pos.sale")} {tx.a}</span>
                     <span className="ml-auto text-[#34D399]/60">✓</span>
                   </div>
                 ))}
@@ -205,7 +207,7 @@ export default function QueueDetectionDemo() {
           {/* Conversion KPI */}
           <div className="bg-[#0E0E0E] border border-[#1A1A1A] rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] text-[#666] font-semibold uppercase tracking-wider">Conversión hoy</span>
+              <span className="text-[11px] text-[#666] font-semibold uppercase tracking-wider">{t("qd.conv.title")}</span>
               <span className="text-[10px] text-[#FB923C] font-mono" style={{ animation: "qd-show-late 14s ease-out infinite", opacity: 0 }}>↓ -18%</span>
             </div>
             {/* Animated bar */}
@@ -224,7 +226,7 @@ export default function QueueDetectionDemo() {
               <span className="text-[20px] font-extrabold text-[#E0E0E0] tracking-tight" style={{ animation: "qd-conv-num 14s steps(1) infinite" }}>
                 62%
               </span>
-              <span className="text-[10px] text-[#444]">benchmark 56%</span>
+              <span className="text-[10px] text-[#444]">{t("qd.conv.benchmark")}</span>
             </div>
           </div>
 
@@ -238,10 +240,10 @@ export default function QueueDetectionDemo() {
                 <div className="absolute inset-0 rounded-full bg-[#00C2E0]/20" style={{ animation: "qd-pulse 1.4s ease-out infinite" }} />
                 <div className="absolute inset-1 rounded-full bg-[#00C2E0] flex items-center justify-center text-[#001518] text-[10px] font-black">B</div>
               </div>
-              <span className="text-[11px] font-bold text-[#00C2E0] tracking-wider uppercase">BEO correlando</span>
+              <span className="text-[11px] font-bold text-[#00C2E0] tracking-wider uppercase">{t("qd.beo.tag")}</span>
             </div>
             <p className="text-[12px] text-[#AAA] leading-snug">
-              Visión: <b className="text-[#00C2E0]">9 personas en fila</b> · POS: <b className="text-[#00C2E0]">throughput -42%</b> · 2 colaboradores sin tarea en zona B.
+              {t("qd.beo.vision")} <b className="text-[#00C2E0]">{t("qd.beo.vision.val")}</b> · {t("qd.beo.pos")} <b className="text-[#00C2E0]">{t("qd.beo.pos.val")}</b> {t("qd.beo.tail")}
             </p>
           </div>
 
@@ -252,11 +254,11 @@ export default function QueueDetectionDemo() {
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded-full bg-[#25D366] flex items-center justify-center text-white text-[11px]">✓</div>
-              <span className="text-[11px] font-bold text-[#86EFAC] tracking-wider uppercase">WhatsApp · Gerente Centro</span>
-              <span className="ml-auto text-[10px] text-[#34D399]/50 font-mono">enviado</span>
+              <span className="text-[11px] font-bold text-[#86EFAC] tracking-wider uppercase">{t("qd.wa.tag")}</span>
+              <span className="ml-auto text-[10px] text-[#34D399]/50 font-mono">{t("qd.wa.sent")}</span>
             </div>
             <p className="text-[12px] text-[#E0F5DC] leading-snug">
-              Fila de 9 personas en caja. Espera 7 min. <b>Abre caja 2 ahora</b> y reasigna zona B.
+              {t("qd.wa.msg.prefix")} <b>{t("qd.wa.msg.action")}</b> {t("qd.wa.msg.suffix")}
             </p>
           </div>
 

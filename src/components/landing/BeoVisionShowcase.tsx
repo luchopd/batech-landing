@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getTranslator, type Lang } from "../../i18n/landingTranslations";
 
 /**
  * BeoVisionShowcase — V4 Clean Hero.
@@ -8,7 +9,8 @@ import { useEffect, useState } from "react";
  * shows the action being executed (WhatsApp). Big typography on the left
  * delivers the value prop. Premium, simple, fast to grasp.
  */
-export default function BeoVisionShowcase({ calendarUrl }: { calendarUrl?: string }) {
+export default function BeoVisionShowcase({ calendarUrl, lang = "es" }: { calendarUrl?: string; lang?: Lang }) {
+  const t = getTranslator(lang);
   const ctaUrl = calendarUrl || "#contacto";
   return (
     <div className="relative">
@@ -21,35 +23,35 @@ export default function BeoVisionShowcase({ calendarUrl }: { calendarUrl?: strin
         <div>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#00C2E0]/25 bg-[#00C2E0]/5 text-[12px] text-[#00C2E0] font-bold tracking-[0.18em] uppercase mb-7">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00C2E0] animate-pulse" />
-            BEO Vision · 90× supervisión humana
+            {t("vision.pill")}
           </div>
 
           <h2 className="text-[clamp(40px,6vw,80px)] font-extrabold leading-[0.96] tracking-[-0.04em] mb-7">
-            Adiós al <span className="text-[#FB923C]">1%</span>.<br />
-            <span className="text-[#00C2E0]">Hola al 100%.</span>
+            {t("vision.h1.line1.before")} <span className="text-[#FB923C]">{t("vision.h1.line1.percent")}</span>.<br />
+            <span className="text-[#00C2E0]">{t("vision.h1.line2")}</span>
           </h2>
 
           <p className="text-[18px] md:text-[20px] text-[#888] leading-relaxed max-w-[520px] mb-10">
-            Tus cámaras y tu POS se convierten en un <b className="text-[#E0E0E0]">auditor inteligente que opera 24/7</b> — detecta, razona y le dice a tu equipo exactamente qué hacer por WhatsApp.
+            {t("vision.body")} <b className="text-[#E0E0E0]">{t("vision.body.bold")}</b> {t("vision.body.tail")}
           </p>
 
           {/* Mini stats inline */}
           <div className="grid grid-cols-3 gap-4 mb-10 max-w-[520px]">
-            <Stat top="1% → 100%" sub="cobertura operativa" color="#00C2E0" />
-            <Stat top="+18%" sub="conversión recuperada" color="#34D399" />
-            <Stat top="+12 pts" sub="margen recuperado" color="#34D399" />
+            <Stat top={t("vision.stat1.n")} sub={t("vision.stat1.l")} color="#00C2E0" />
+            <Stat top={t("vision.stat2.n")} sub={t("vision.stat2.l")} color="#34D399" />
+            <Stat top={t("vision.stat3.n")} sub={t("vision.stat3.l")} color="#34D399" />
           </div>
 
           <div className="flex items-center gap-4 flex-wrap">
             <a href={ctaUrl} target={calendarUrl ? "_blank" : undefined} rel={calendarUrl ? "noopener noreferrer" : undefined} className="px-7 py-3.5 rounded-full bg-[#00C2E0] text-[#080808] font-bold text-[15px] hover:bg-[#00D4F5] transition-colors">
-              Quiero esto en mi cadena &rarr;
+              {t("vision.cta")}
             </a>
-            <span className="text-[13px] text-[#444]">Sin hardware nuevo · Sin proyectos de IT</span>
+            <span className="text-[13px] text-[#444]">{t("vision.cta.sub")}</span>
           </div>
 
           {/* Footnote */}
           <p className="text-[12px] text-[#333] leading-relaxed max-w-[460px] mt-8 pt-6 border-t border-[#1A1A1A]">
-            <b className="text-[#666]">Deja de resignar margen</b> para supervisar solo el 1% de tu operación. BEO opera mejor, vende más y crece tu margen — sin crecer tu headcount.
+            <b className="text-[#666]">{t("vision.footnote.bold")}</b> {t("vision.footnote.tail")}
           </p>
         </div>
 
@@ -64,7 +66,7 @@ export default function BeoVisionShowcase({ calendarUrl }: { calendarUrl?: strin
               animation: "bvs-float-1 7s ease-in-out infinite",
             }}
           >
-            <CCTVMonitor />
+            <CCTVMonitor t={t} />
           </div>
 
           {/* Monitor 2 — WhatsApp action */}
@@ -76,7 +78,7 @@ export default function BeoVisionShowcase({ calendarUrl }: { calendarUrl?: strin
               animation: "bvs-float-2 8s ease-in-out infinite",
             }}
           >
-            <WhatsAppActionCard />
+            <WhatsAppActionCard t={t} />
           </div>
 
           {/* Subtle floor reflection */}
@@ -89,10 +91,12 @@ export default function BeoVisionShowcase({ calendarUrl }: { calendarUrl?: strin
   );
 }
 
+type T = (key: string) => string;
+
 /* ============================================================
    CCTV MONITOR — clean realistic footage with AI overlays
    ============================================================ */
-function CCTVMonitor() {
+function CCTVMonitor({ t }: { t: T }) {
   return (
     <div className="rounded-2xl overflow-hidden bg-[#0A0E12] border border-[#1F2530] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8),0_0_60px_-20px_rgba(0,194,224,0.3)]">
       {/* Top chrome */}
@@ -102,10 +106,10 @@ function CCTVMonitor() {
           <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
         </div>
-        <span className="ml-3 text-[11px] font-mono font-semibold text-[#666]">CAM-04 · Sucursal Polanco · Caja</span>
+        <span className="ml-3 text-[11px] font-mono font-semibold text-[#666]">{t("vision.cctv.label")}</span>
         <span className="ml-auto flex items-center gap-1.5 text-[10px] font-mono">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF5F57]" style={{ animation: "bvs-rec 1.4s ease-in-out infinite" }} />
-          <span className="text-[#FF5F57] font-bold">REC</span>
+          <span className="text-[#FF5F57] font-bold">{t("vision.cctv.rec")}</span>
           <span className="text-[#444] mx-1">·</span>
           <span className="text-[#666]">14:22:07</span>
         </span>
@@ -180,7 +184,7 @@ function CCTVMonitor() {
             <g style={{ animation: "bvs-detect 4s ease-in-out infinite" }}>
               <rect x="-26" y="-38" width="52" height="108" rx="3" fill="none" stroke="#34D399" strokeWidth="1.5" strokeDasharray="4 3" filter="url(#cctv-glow)" />
               <rect x="-26" y="-50" width="80" height="11" rx="1" fill="#34D399" />
-              <text x="14" y="-42" textAnchor="middle" fill="#001A10" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">CAJERO · 0.97</text>
+              <text x="14" y="-42" textAnchor="middle" fill="#001A10" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">{t("vision.cctv.cashier")}</text>
             </g>
           </g>
 
@@ -191,7 +195,7 @@ function CCTVMonitor() {
             <g style={{ animation: "bvs-detect 4s ease-in-out 0.4s infinite" }}>
               <rect x="-22" y="-34" width="44" height="88" rx="3" fill="none" stroke="#00C2E0" strokeWidth="1.5" strokeDasharray="4 3" filter="url(#cctv-glow)" />
               <rect x="-22" y="-46" width="74" height="11" rx="1" fill="#00C2E0" />
-              <text x="15" y="-38" textAnchor="middle" fill="#001518" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">M · 32 · 0.94</text>
+              <text x="15" y="-38" textAnchor="middle" fill="#001518" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">{t("vision.cctv.customer1")}</text>
             </g>
           </g>
 
@@ -202,9 +206,9 @@ function CCTVMonitor() {
             <g style={{ animation: "bvs-detect 4s ease-in-out 0.8s infinite" }}>
               <rect x="-21" y="-33" width="42" height="80" rx="3" fill="none" stroke="#34D399" strokeWidth="1.5" strokeDasharray="4 3" filter="url(#cctv-glow)" />
               <rect x="-21" y="-45" width="98" height="11" rx="1" fill="#34D399" />
-              <text x="28" y="-37" textAnchor="middle" fill="#001A10" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">RECURRENTE #14</text>
+              <text x="28" y="-37" textAnchor="middle" fill="#001A10" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">{t("vision.cctv.customer2")}</text>
               <rect x="-21" y="50" width="42" height="9" rx="2" fill="#001A10" stroke="#34D399" strokeWidth="0.6" />
-              <text x="0" y="56.5" textAnchor="middle" fill="#34D399" fontSize="6.5" fontFamily="ui-monospace" fontWeight="700">$487 PROM</text>
+              <text x="0" y="56.5" textAnchor="middle" fill="#34D399" fontSize="6.5" fontFamily="ui-monospace" fontWeight="700">{t("vision.cctv.avg")}</text>
             </g>
           </g>
 
@@ -217,7 +221,7 @@ function CCTVMonitor() {
             <g style={{ animation: "bvs-warn 1.8s ease-in-out infinite" }}>
               <rect x="-25" y="-36" width="50" height="100" rx="3" fill="none" stroke="#FB923C" strokeWidth="1.6" strokeDasharray="4 3" filter="url(#cctv-glow)" />
               <rect x="-25" y="-48" width="118" height="11" rx="1" fill="#FB923C" />
-              <text x="34" y="-40" textAnchor="middle" fill="#1A0A00" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">IDLE 4:32 · CELULAR</text>
+              <text x="34" y="-40" textAnchor="middle" fill="#1A0A00" fontSize="7.5" fontFamily="ui-monospace" fontWeight="900">{t("vision.cctv.idle")}</text>
             </g>
           </g>
 
@@ -239,7 +243,7 @@ function CCTVMonitor() {
 /* ============================================================
    WHATSAPP ACTION CARD
    ============================================================ */
-function WhatsAppActionCard() {
+function WhatsAppActionCard({ t }: { t: T }) {
   const [time, setTime] = useState("14:22");
   useEffect(() => {
     const id = setInterval(() => {
@@ -257,10 +261,10 @@ function WhatsAppActionCard() {
           <span className="text-white font-black text-sm">B</span>
         </div>
         <div className="min-w-0">
-          <div className="text-[13px] font-semibold text-white">BEO · Operaciones</div>
+          <div className="text-[13px] font-semibold text-white">{t("vision.wa.title")}</div>
           <div className="text-[10px] text-[#86EFAC] flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-[#86EFAC] animate-pulse" />
-            en línea
+            {t("vision.wa.online")}
           </div>
         </div>
         <span className="ml-auto text-[#86EFAC] text-lg">📞</span>
@@ -271,36 +275,36 @@ function WhatsAppActionCard() {
         {/* BEO message */}
         <div className="flex flex-col items-start" style={{ animation: "bvs-msg-in 0.6s ease-out" }}>
           <div className="bg-[#1F2C25] rounded-2xl rounded-tl-sm px-3.5 py-2.5 max-w-[260px] shadow-md">
-            <div className="text-[10px] font-bold text-[#86EFAC] mb-1.5 tracking-wide">⚠ ACCIÓN INMEDIATA</div>
+            <div className="text-[10px] font-bold text-[#86EFAC] mb-1.5 tracking-wide">{t("vision.wa.alert.tag")}</div>
             <p className="text-[13px] text-[#E0F5DC] leading-snug">
-              <b>Fila de 6 personas</b> en caja 1.<br />
-              Espera promedio: 8 min.<br />
-              <b className="text-[#86EFAC]">→ Abre caja 2 ahora.</b>
+              <b>{t("vision.wa.alert.bold")}</b> {t("vision.wa.alert.line2")}<br />
+              {t("vision.wa.alert.line3")}<br />
+              <b className="text-[#86EFAC]">{t("vision.wa.alert.action")}</b>
             </p>
-            <div className="text-[9px] text-[#5A8A6E] mt-2 text-right font-mono">{time} · BEO Revenue Agent</div>
+            <div className="text-[9px] text-[#5A8A6E] mt-2 text-right font-mono">{time} · {t("vision.wa.alert.sig")}</div>
           </div>
         </div>
 
         {/* Manager reply */}
         <div className="flex flex-col items-end" style={{ animation: "bvs-msg-in 0.6s ease-out 1s both" }}>
           <div className="bg-[#1A4D2E] rounded-2xl rounded-tr-sm px-3.5 py-2.5 max-w-[220px]">
-            <p className="text-[13px] text-[#E0F5DC]">Listo, abriendo caja 2 👍</p>
-            <div className="text-[9px] text-[#5A8A6E] mt-1 text-right font-mono">{time} · Gerente · ✓✓</div>
+            <p className="text-[13px] text-[#E0F5DC]">{t("vision.wa.reply.text")}</p>
+            <div className="text-[9px] text-[#5A8A6E] mt-1 text-right font-mono">{time} · {t("vision.wa.reply.sig")}</div>
           </div>
         </div>
 
         {/* Result message */}
         <div className="flex flex-col items-start" style={{ animation: "bvs-msg-in 0.6s ease-out 2s both" }}>
           <div className="bg-[#0F2A1A] border border-[#34D399]/30 rounded-2xl rounded-tl-sm px-3.5 py-2.5 max-w-[270px]">
-            <div className="text-[10px] font-bold text-[#34D399] mb-1.5 tracking-wide">📈 RESULTADO 12 MIN DESPUÉS</div>
+            <div className="text-[10px] font-bold text-[#34D399] mb-1.5 tracking-wide">{t("vision.wa.result.tag")}</div>
             <div className="grid grid-cols-2 gap-2 mt-1.5">
               <div>
                 <div className="text-[20px] font-extrabold text-[#34D399] tracking-tight leading-none">−42%</div>
-                <div className="text-[10px] text-[#5A8A6E] mt-0.5">tiempo espera</div>
+                <div className="text-[10px] text-[#5A8A6E] mt-0.5">{t("vision.wa.result.k1.l")}</div>
               </div>
               <div>
                 <div className="text-[20px] font-extrabold text-[#34D399] tracking-tight leading-none">+18%</div>
-                <div className="text-[10px] text-[#5A8A6E] mt-0.5">conversión</div>
+                <div className="text-[10px] text-[#5A8A6E] mt-0.5">{t("vision.wa.result.k2.l")}</div>
               </div>
             </div>
           </div>
@@ -309,7 +313,7 @@ function WhatsAppActionCard() {
 
       {/* Composer */}
       <div className="px-3 py-2.5 bg-[#0E1A12] border-t border-[#1A2C20] flex items-center gap-2">
-        <div className="flex-1 bg-[#1A2C20] rounded-full px-3 py-1.5 text-[12px] text-[#5A8A6E]">Mensaje</div>
+        <div className="flex-1 bg-[#1A2C20] rounded-full px-3 py-1.5 text-[12px] text-[#5A8A6E]">{t("vision.wa.composer")}</div>
         <div className="w-7 h-7 rounded-full bg-[#25D366] flex items-center justify-center text-white text-[14px]">›</div>
       </div>
     </div>
